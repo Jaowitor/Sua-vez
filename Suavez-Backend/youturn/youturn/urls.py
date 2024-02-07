@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
         # # System Urls
     path("usuario/", include("usuario.urls")),
-
+    path("cliente/", include("cliente.urls")),
 
        # URLs para a Autenticação, Ele faz o front se conectar
     path('token-auth/', TokenObtainPairView.as_view(), name='token-auth'),

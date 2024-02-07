@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
     #system modules
     'usuario',
+    'cliente',
 ]
 
 
