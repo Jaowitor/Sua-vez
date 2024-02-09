@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 # Importações do Sistema
 from .models import Cliente
-from .serializers import ClienteSerializer
+from .serializers import ClienteSerializer, FilaCliente
 
 # Método GET
 class ClinteList(generics.ListAPIView):
@@ -28,19 +28,48 @@ class ClinteList(generics.ListAPIView):
 
         # Retorna uma resposta com status HTTP 200 OK
         return response.Response(data=cliente_serializer.data, status=status.HTTP_200_OK)
+    
+# Método DETAIL
+class ClinteDetail(generics.RetrieveAPIView):
+    
+    # Se o cliente for autenticado ele terá acesso ao método
+    permission_classes = (IsAuthenticated, )
+    
+    # Obtém todos os objetos Cliente do banco de dados
+    queryset = Cliente.objects.all() 
+
+    # Utiliza o serializer ClienteSerializer para serializar os objetos
+    serializer_class = ClienteSerializer
+
+    def get(self, request, pk):
+
+        try:
+
+            # Pega um cliente com base nos dados enviados na solicitação
+            cliente_serializer = self.serializer_class(self.queryset.get(pk=pk), many=False)
+            
+            # Retorna uma resposta com status HTTP 200 OK
+            return response.Response(data = cliente_serializer.data, status = status.HTTP_200_OK)
+
+        except:
+
+            # Retorna uma resposta com status HTTP 200 OK
+            return response.Response(data="Essa cliente não existe", status=status.HTTP_200_OK)
+    
+
 class ClienteCreate(generics.CreateAPIView):
     
     permission_classes = [IsAuthenticated]
     queryset = Cliente.objects.all()
     serializer_class = ClienteSerializer
-
-    def post(self, request):
-        cliente_serializer = self.serializer_class(data=request.data)
-        if cliente_serializer.is_valid():
-            cliente_serializer.save()
-            return response.Response(data=cliente_serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return response.Response(data=cliente_serializer.errors, status=status.HTTP_BAD_REQUEST)
+    
+def post(self, request):
+    cliente_serializer = self.serializer_class(data=request.data)
+    if cliente_serializer.is_valid():
+        cliente_serializer.save()
+        return response.Response(data=cliente_serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return response.Response(data=cliente_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # Método put
 class ClienteUpdate(generics.RetrieveUpdateAPIView):
 
