@@ -32,7 +32,7 @@ class ClinteList(generics.ListAPIView):
 # Método DETAIL
 class ClinteDetail(generics.RetrieveAPIView):
     
-    # Se o cliente for autenticado ele terá acesso ao método
+    # Se o cliente for autenticado ele terá acesso 
     permission_classes = (IsAuthenticated, )
     
     # Obtém todos os objetos Cliente do banco de dados
