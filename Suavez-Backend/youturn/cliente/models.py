@@ -9,7 +9,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
 class Cliente(models.Model):
     nome_cliente = models.CharField(_("Nome do Cliente"), max_length=255)
-    forma_identificacao = models.CharField(_("Forma de Identificação"), max_length=255, blank=True, null=True)
+    forma_identificacao = models.CharField(_("Forma de Identificação"), max_length=255, blank=True, null=True, unique=True)
     data_registro = models.DateTimeField(_("Data de Registro"), auto_now_add=True)
 
     class Meta:
@@ -18,3 +18,4 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nome_cliente
+    
